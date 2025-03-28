@@ -3,6 +3,9 @@ const axios = require('axios')
 const app = express()
 const PORT = 8080
 
+require('dotenv').config();
+const BEARER_TOKEN = process.env.BEARER_TOKEN;
+
 app.use(express.json())
 
 app.listen(PORT, (req,res)=>{
@@ -11,7 +14,9 @@ app.listen(PORT, (req,res)=>{
 
 app.get('/users',async (req,res)=>{
     try {
-        const res = await axios.get("http://20.244.56.144/test/users")
+        const res = await axios.get("http://20.244.56.144/test/users", {headers: {
+            Authorization: `Bearer ${BEARER_TOKEN}`
+        }})
         const users = res.data
         res.status(200).json(users)
         
@@ -24,7 +29,9 @@ app.get('/users',async (req,res)=>{
 app.get('/test/users/:userid/posts', async (req,res)=>{
     const { userid } = req.params;
     try {
-        const res = await axios.get("http://20.244.56.144/test/users/:userid/posts")
+        const res = await axios.get("http://20.244.56.144/test/users/:userid/posts", {headers: {
+            Authorization: `Bearer ${BEARER_TOKEN}`
+        }})
         const users = res.data
         res.status(200).json(users)
         
